@@ -22,5 +22,5 @@ resource "google_compute_instance" "vm_instance" {
     subnetwork = var.subnetwork
     }
     
-    metadata_startup_script = file(var.metadata_startup_script) 
+    # metadata_startup_script = file(var.metadata_startup_script) 
 }
