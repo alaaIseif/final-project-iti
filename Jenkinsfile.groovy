@@ -5,8 +5,6 @@ pipeline {
     }
     environment {
         CLOUD_SDK_PROJECT = 'final-devops-iti'
-        // GCLOUD_EMAIL='master@final-devops-iti.iam.gserviceaccount.com'
-        GCLOUD_CREDS = credentials('final-devops-iti')
     }
     parameters {
         booleanParam(name: 'autoApprove', defaultValue: true, description: 'Automatically run apply after generating plan?')
@@ -27,8 +25,11 @@ pipeline {
         stage('GCP authentication') {
             steps{
                 // Set up Google Cloud SDK
-                sh '''gcloud config set project ${CLOUD_SDK_PROJECT}
-                gcloud auth activate-service-account --key-file=${GCLOUD_CREDS}'''
+
+                withCredentials([file(credentialsId: 'master-key', variable: 'GC_KEY')]) {
+                sh '''gcloud auth activate-service-account --key-file=${GC_KEY}"
+                gcloud config set project ${CLOUD_SDK_PROJECT}'''
+                }
                 }
             // }
         }
@@ -60,8 +61,8 @@ pipeline {
         stage('Trigger Deployment Pipeline') {
         steps {
             build job: 'deploying-web-app'
+            }
         }
     }
-
-    }
+    
 }
