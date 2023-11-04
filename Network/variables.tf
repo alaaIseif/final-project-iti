@@ -1,0 +1,13 @@
+variable "ami" {}
+variable "instance_type" {}
+variable "vpc-region" {}
+variable "management-subnet-name" {}
+variable "protocol" {}
+variable "vm-service-account-id" {}
+variable "project_id" {}
+variable "management-region" {}
+variable "workload-region" {}
+variable "management_subnet_cidr" {}
+variable "workload_subnet_cidr" {}
+variable "workload-subnet-name" {}
+variable "vm-router-name" {}
