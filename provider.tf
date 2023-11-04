@@ -2,6 +2,5 @@
 provider "google" {
     project     = "terraform-project-iti"
     region      = "asia-south2"
-    credentials = file("master-terraform-project-iti.json")
-
+    credentials = "master-terraform-project-iti-key.json"
 }
