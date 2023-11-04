@@ -1,0 +1,129 @@
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+-/+ destroy and then create replacement
+ <= read (data resources)
+
+Terraform will perform the following actions:
+
+  # module.Compute.data.google_compute_instance.vm_instance will be read during apply
+  # (depends on a resource or a module with changes pending)
+ <= data "google_compute_instance" "vm_instance" {
+      + advanced_machine_features    = (known after apply)
+      + allow_stopping_for_update    = (known after apply)
+      + attached_disk                = (known after apply)
+      + boot_disk                    = (known after apply)
+      + can_ip_forward               = (known after apply)
+      + confidential_instance_config = (known after apply)
+      + cpu_platform                 = (known after apply)
+      + current_status               = (known after apply)
+      + deletion_protection          = (known after apply)
+      + description                  = (known after apply)
+      + desired_status               = (known after apply)
+      + effective_labels             = (known after apply)
+      + enable_display               = (known after apply)
+      + guest_accelerator            = (known after apply)
+      + hostname                     = (known after apply)
+      + id                           = (known after apply)
+      + instance_id                  = (known after apply)
+      + label_fingerprint            = (known after apply)
+      + labels                       = (known after apply)
+      + machine_type                 = (known after apply)
+      + metadata                     = (known after apply)
+      + metadata_fingerprint         = (known after apply)
+      + metadata_startup_script      = (known after apply)
+      + min_cpu_platform             = (known after apply)
+      + name                         = "management-vm"
+      + network_interface            = (known after apply)
+      + network_performance_config   = (known after apply)
+      + params                       = (known after apply)
+      + reservation_affinity         = (known after apply)
+      + resource_policies            = (known after apply)
+      + scheduling                   = (known after apply)
+      + scratch_disk                 = (known after apply)
+      + service_account              = (known after apply)
+      + shielded_instance_config     = (known after apply)
+      + tags                         = (known after apply)
+      + tags_fingerprint             = (known after apply)
+      + terraform_labels             = (known after apply)
+      + zone                         = "us-east1-b"
+    }
+
+  # module.Compute.google_compute_instance.vm_instance must be replaced
+-/+ resource "google_compute_instance" "vm_instance" {
+      ~ cpu_platform            = "Intel Haswell" -> (known after apply)
+      ~ current_status          = "RUNNING" -> (known after apply)
+      ~ effective_labels        = {} -> (known after apply)
+      - enable_display          = false -> null
+      ~ guest_accelerator       = [] -> (known after apply)
+      ~ id                      = "projects/terraform-project-iti/zones/us-east1-b/instances/management-vm" -> (known after apply)
+      ~ instance_id             = "8976811900418122556" -> (known after apply)
+      ~ label_fingerprint       = "42WmSpB8rSM=" -> (known after apply)
+      - labels                  = {} -> null
+      - metadata                = {} -> null
+      ~ metadata_fingerprint    = "8Hj4kcKfHCY=" -> (known after apply)
+      + metadata_startup_script = <<-EOT # forces replacement
+            wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+                
+                echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+                
+                sudo apt update && sudo apt install terraform
+            
+                gcloud auth application-default login --client-id-file=../master-terraform-project-iti-key.json
+        EOT
+      + min_cpu_platform        = (known after apply)
+        name                    = "management-vm"
+      - resource_policies       = [] -> null
+      ~ self_link               = "https://www.googleapis.com/compute/v1/projects/terraform-project-iti/zones/us-east1-b/instances/management-vm" -> (known after apply)
+        tags                    = [
+            "allow-ssh",
+        ]
+      ~ tags_fingerprint        = "SFX9LNAOdG8=" -> (known after apply)
+      ~ terraform_labels        = {} -> (known after apply)
+        # (5 unchanged attributes hidden)
+
+      ~ boot_disk {
+          ~ device_name                = "persistent-disk-0" -> (known after apply)
+          + disk_encryption_key_sha256 = (known after apply)
+          + kms_key_self_link          = (known after apply)
+          ~ source                     = "https://www.googleapis.com/compute/v1/projects/terraform-project-iti/zones/us-east1-b/disks/management-vm" -> (known after apply)
+            # (2 unchanged attributes hidden)
+
+          ~ initialize_params {
+              ~ image                 = "https://www.googleapis.com/compute/v1/projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal-v20231101" -> "ubuntu-os-cloud/ubuntu-2004-lts"
+              ~ labels                = {} -> (known after apply)
+              - resource_manager_tags = {} -> null
+              ~ size                  = 10 -> (known after apply)
+              ~ type                  = "pd-standard" -> (known after apply)
+            }
+        }
+
+      ~ network_interface {
+          ~ internal_ipv6_prefix_length = 0 -> (known after apply)
+          + ipv6_access_type            = (known after apply)
+          + ipv6_address                = (known after apply)
+          ~ name                        = "nic0" -> (known after apply)
+          ~ network                     = "https://www.googleapis.com/compute/v1/projects/terraform-project-iti/global/networks/main-vpc-us-east1" -> "main-vpc-us-east1"
+          ~ network_ip                  = "10.2.0.3" -> (known after apply)
+          - queue_count                 = 0 -> null
+          ~ stack_type                  = "IPV4_ONLY" -> (known after apply)
+          ~ subnetwork                  = "https://www.googleapis.com/compute/v1/projects/terraform-project-iti/regions/us-east1/subnetworks/management-subnet" -> "management-subnet"
+          ~ subnetwork_project          = "terraform-project-iti" -> (known after apply)
+        }
+
+      - scheduling {
+          - automatic_restart   = true -> null
+          - min_node_cpus       = 0 -> null
+          - on_host_maintenance = "MIGRATE" -> null
+          - preemptible         = false -> null
+          - provisioning_model  = "STANDARD" -> null
+        }
+
+      - shielded_instance_config {
+          - enable_integrity_monitoring = true -> null
+          - enable_secure_boot          = false -> null
+          - enable_vtpm                 = true -> null
+        }
+    }
+
+Plan: 1 to add, 0 to change, 1 to destroy.

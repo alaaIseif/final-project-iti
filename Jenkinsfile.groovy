@@ -3,6 +3,12 @@ pipeline {
     tools {
     terraform 'terraform_1.5.7'
     }
+    environment {
+
+        CLOUD_SDK_PROJECT='terraform-project-iti'
+        CLIENT_EMAIL='master@terraform-project-iti.iam.gserviceaccount.com'
+        GCLOUD_CREDS=credentials('terraform-key')
+    }
 
     parameters {
         booleanParam(name: 'autoApprove', defaultValue: true, description: 'Automatically run apply after generating plan?')
@@ -24,19 +30,19 @@ pipeline {
         stage('GCP authentication') {
             steps{
                 // Authenticate using Google OAuth credentials
-                withCredentials([
-                file(credentialsId: 'terraform-key', variable: 'TF_KEY')
-                ]) {
+                // withCredentials([
+                // file(credentialsId: 'terraform-key', variable: 'TF_KEY')
+                // ]) {
 
                 // Set up Google Cloud SDK
-                sh '''gcloud auth activate-service-account --key-file="${TF_KEY}"
-                gcloud config set project terraform-project-iti'''
+                sh '''gcloud config set project ${CLOUD_SDK_PROJECT}
+                gcloud auth activate-service-account --key-file=${GCLOUD_CREDS}'''
                 }
-            }
+            // }
         }
         stage('Plan') {
             steps {
-                sh '''terraform plan -out tfplan
+                sh '''terraform plan -out=tfplan
                 terraform show -no-color tfplan > tfplan.txt'''
             }
         }
