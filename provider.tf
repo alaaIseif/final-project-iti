@@ -1,6 +1,6 @@
 # Configure the GCP Provider
 provider "google" {
-    project     = "terraform-project-iti"
+    project     = "final-devops-iti"
     region      = "asia-south2"
-    credentials = "master-terraform-project-iti-key.json"
+    credentials = "master-final-devops-iti-key.json"
 }

@@ -1,4 +1,4 @@
-project_id = "terraform-project-iti"
+project_id = "final-devops-iti"
 vpc-region = "us-east1"
 
 ##################  Management Subnet ####################
@@ -12,7 +12,7 @@ availability_zones=["asia-south2-a", "asia-south2-b", "asia-south2-c"]
 protocol="tcp"
 
 ################### VM ###################
-sa-vm-email = "vm-dev@terraform-project-iti.iam.gserviceaccount.com"
+sa-vm-email = "vm-dev@final-devops-iti.iam.gserviceaccount.com"
 sa-vm-id = "vm-dev"
 metadata_startup_script = "Compute/script.sh"
 vm_name = "management-vm"
@@ -33,7 +33,7 @@ workload-subnet-name = "workload-subnet"
 workload-region = "asia-south2"
 workload_subnet_cidr = "172.16.0.0/12"
 cluster_name = "gke-regional-cluster"
-sa-gke-access-email = "gke-access@terraform-project-iti.iam.gserviceaccount.com"
+sa-gke-access-email = "gke-access@final-devops-iti.iam.gserviceaccount.com"
 sa-gke-access-id = "gke-access"
 deletion_protection = "false"
 enable_private_nodes = "true"

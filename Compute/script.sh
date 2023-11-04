@@ -4,4 +4,4 @@
     
     sudo apt update && sudo apt install terraform
 
-    gcloud auth application-default login --client-id-file=../master-terraform-project-iti-key.json
+    gcloud auth application-default login --client-id-file=../master-final-devops-iti-key.json

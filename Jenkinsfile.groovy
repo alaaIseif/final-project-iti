@@ -4,7 +4,7 @@ pipeline {
     terraform 'terraform_1.5.7'
     }
     environment {
-        CLOUD_SDK_PROJECT='terraform-project-iti'
+        CLOUD_SDK_PROJECT='final-devops-iti'
         GCLOUD_CREDS=credentials('terraform-key')
     }
     parameters {
@@ -15,7 +15,6 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // git branch: 'main', url: 'https://github.com/CodeSagarOfficial/jenkins-scripts.git'
                 git credentialsId: 'githubCred', url: 'https://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@github.com/alaaIseif/final-project-iti.git'
             }
         }
