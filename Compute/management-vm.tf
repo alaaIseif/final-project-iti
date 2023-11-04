@@ -1,5 +1,3 @@
-data "google_project" "current" {}
-
 data "google_compute_instance" "vm_instance" {
   name = google_compute_instance.vm_instance.name
   zone         = var.management-zone

@@ -5,6 +5,7 @@ pipeline {
     }
     environment {
         CLOUD_SDK_PROJECT = 'final-devops-iti'
+        GOOGLE_APPLICATION_CREDENTIALS = credentials('final-master-key')
     }
     parameters {
         booleanParam(name: 'autoApprove', defaultValue: true, description: 'Automatically run apply after generating plan?')
@@ -26,10 +27,9 @@ pipeline {
             steps{
                 // Set up Google Cloud SDK
 
-                withCredentials([file(credentialsId: 'master-key', variable: 'GC_KEY')]) {
-                sh '''gcloud auth activate-service-account --key-file=${GC_KEY}"
+                sh '''gcloud auth activate-service-account --key-file=${GOOGLE_APPLICATION_CREDENTIALS}
                 gcloud config set project ${CLOUD_SDK_PROJECT}'''
-                }
+                
                 }
             // }
         }
