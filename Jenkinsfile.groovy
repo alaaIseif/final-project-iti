@@ -4,9 +4,7 @@ pipeline {
     terraform 'terraform_1.5.7'
     }
     environment {
-
         CLOUD_SDK_PROJECT='terraform-project-iti'
-        CLIENT_EMAIL='master@terraform-project-iti.iam.gserviceaccount.com'
         GCLOUD_CREDS=credentials('terraform-key')
     }
 
@@ -18,7 +16,6 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // git branch: 'main', url: 'https://github.com/CodeSagarOfficial/jenkins-scripts.git'
                 git credentialsId: 'githubCred', url: 'https://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@github.com/alaaIseif/final-project-iti.git'
             }
         }
@@ -29,11 +26,6 @@ pipeline {
         }
         stage('GCP authentication') {
             steps{
-                // Authenticate using Google OAuth credentials
-                // withCredentials([
-                // file(credentialsId: 'terraform-key', variable: 'TF_KEY')
-                // ]) {
-
                 // Set up Google Cloud SDK
                 sh '''gcloud config set project ${CLOUD_SDK_PROJECT}
                 gcloud auth activate-service-account --key-file=${GCLOUD_CREDS}'''
