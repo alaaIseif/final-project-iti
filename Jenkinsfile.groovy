@@ -4,8 +4,9 @@ pipeline {
     terraform 'terraform_1.5.7'
     }
     environment {
-        CLOUD_SDK_PROJECT='final-devops-iti'
-        GCLOUD_CREDS=credentials('terraform-key')
+        CLOUD_SDK_PROJECT = 'final-devops-iti'
+        // GCLOUD_EMAIL='master@final-devops-iti.iam.gserviceaccount.com'
+        GCLOUD_CREDS = credentials('671f7c9b-46a1-4bba-8568-b94a16b48b38')
     }
     parameters {
         booleanParam(name: 'autoApprove', defaultValue: true, description: 'Automatically run apply after generating plan?')
@@ -56,6 +57,11 @@ pipeline {
                 }
             }
         }
+        stage('Trigger Deployment Pipeline') {
+        steps {
+            build job: 'deploying-web-app'
+        }
+    }
 
     }
 }

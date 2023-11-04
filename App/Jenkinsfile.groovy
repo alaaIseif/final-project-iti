@@ -3,7 +3,8 @@ pipeline {
 
     environment {
         CLOUD_SDK_PROJECT='final-devops-iti'
-        GCLOUD_CREDS=credentials('terraform-key')
+        GCLOUD_EMAIL='master@final-devops-iti.iam.gserviceaccount.com'
+        GCLOUD_CREDS=credentials('671f7c9b-46a1-4bba-8568-b94a16b48b38')
     }
     
   stages {
