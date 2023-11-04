@@ -6,7 +6,7 @@ pipeline {
     environment {
         CLOUD_SDK_PROJECT = 'final-devops-iti'
         // GCLOUD_EMAIL='master@final-devops-iti.iam.gserviceaccount.com'
-        GCLOUD_CREDS = credentials('671f7c9b-46a1-4bba-8568-b94a16b48b38')
+        GCLOUD_CREDS = credentials('final-devops-iti')
     }
     parameters {
         booleanParam(name: 'autoApprove', defaultValue: true, description: 'Automatically run apply after generating plan?')
