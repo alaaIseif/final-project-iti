@@ -26,7 +26,7 @@ resource "google_container_cluster" "primary" {
   }
   master_authorized_networks_config {
     cidr_blocks {
-      cidr_block = "0.0.0.0/0" //var.workload_subnet_cidr
+      cidr_block = "0.0.0.0/0" 
     }
   }
 
