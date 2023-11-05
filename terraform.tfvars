@@ -8,7 +8,7 @@ instance_type="t2.micro"
 management_subnet_cidr = "10.2.0.0/16"
 management-region = "us-east1"
 management-zone = "us-east1-b"
-availability_zones=["asia-south2-a", "asia-south2-b", "asia-south2-c"]
+availability_zones=["asia-south2-a"]
 protocol="tcp"
 
 ################### VM ###################

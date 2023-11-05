@@ -13,6 +13,7 @@ resource "google_container_cluster" "primary" {
   node_config {
     disk_size_gb = 25
   }
+  
   addons_config {
     http_load_balancing {
       disabled = true
