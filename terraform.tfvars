@@ -8,7 +8,7 @@ instance_type="t2.micro"
 management_subnet_cidr = "10.2.0.0/16"
 management-region = "us-east1"
 management-zone = "us-east1-b"
-availability_zones=["asia-east1-a"]
+availability_zones=["asia-south2-a"]
 protocol="tcp"
 
 ################### VM ###################
@@ -30,7 +30,7 @@ storage_location = "US-EAST1"
 
 ################## Cluster Variables ##################
 workload-subnet-name = "workload-subnet"
-workload-region = "asia-east1"
+workload-region = "asia-south2"
 workload_subnet_cidr = "172.16.0.0/12"
 cluster_name = "gke-regional-cluster"
 sa-gke-access-email = "gke-access@final-devops-iti.iam.gserviceaccount.com"
@@ -40,7 +40,7 @@ enable_private_nodes = "true"
 enable_private_endpoint = "false"
 gke_master_ipv4_cidr_block = "172.16.0.0/28" //10.13.0.0/28
 node-pool-name = "regional-workload-node-pool"
-node-pool-location = "asia-east1"
+node-pool-location = "asia-south2"
 node-pool-nodes-count = 1
 node_machine_type = "e2-micro"
 node_disk_size_gb = 10

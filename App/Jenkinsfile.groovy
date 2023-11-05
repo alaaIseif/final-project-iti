@@ -4,7 +4,7 @@ pipeline {
     environment {
         CLOUD_SDK_PROJECT = 'final-devops-iti'
         GOOGLE_APPLICATION_CREDENTIALS = credentials('final-master-key')
-        REGION = 'asia-east1'
+        REGION = 'asia-south2'
         GKE_CLUSTER = 'gke-regional-cluster'
 
     }
