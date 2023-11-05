@@ -10,7 +10,7 @@ resource "google_compute_firewall" "iap_to_ssh" {
   priority  = 1000
 
   # Cloud IAP's TCP forwarding netblock
-  source_ranges = ["0.0.0.0/0"] //["35.235.240.0/20"]
+  source_ranges = ["35.235.240.0/20"]
   target_tags = ["allow-ssh"]
 
   allow {
