@@ -2,9 +2,11 @@ pipeline {
   agent any
 
     environment {
-        CLOUD_SDK_PROJECT='final-devops-iti'
-        GCLOUD_EMAIL='master@final-devops-iti.iam.gserviceaccount.com'
-        GCLOUD_CREDS=credentials('671f7c9b-46a1-4bba-8568-b94a16b48b38')
+        CLOUD_SDK_PROJECT = 'final-devops-iti'
+        GOOGLE_APPLICATION_CREDENTIALS = credentials('final-master-key')
+        REGION = 'asia-south2'
+        GKE_CLUSTER = 'gke-regional-cluster'
+
     }
     
   stages {
@@ -14,7 +16,7 @@ pipeline {
       }
     }
 
-    stage('Docker Configuration'){
+    stage('Configuration'){
         steps{
             sh '''
             sudo apt update -y
@@ -22,9 +24,6 @@ pipeline {
             curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
             sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
             sudo apt install docker-ce
-            sudo usermod -aG docker ubuntu
-            su - ubuntu
-            docker
 
             gcloud auth configure-docker us-east1-docker.pkg.dev
             gcloud auth print-access-token | sudo docker login -u oauth2accesstoken --password-stdin  us-east1-docker.pkg.dev
@@ -32,35 +31,32 @@ pipeline {
         }
     }
 
-
     stage('Build Docker Image') {
       steps {
-       sh 'docker build -t hello-world-app:v1 .'
-       sh 'docker push hello-world-app:v1' 
+            sh '''
+            cd App
+            sudo docker build -t us-east1-docker.pkg.dev/final-devops-iti/tf-gcp/hello-world-app:v1 .
+            gcloud auth print-access-token | sudo docker login -u oauth2accesstoken --password-stdin  us-east1-docker.pkg.dev
+            sudo docker push us-east1-docker.pkg.dev/final-devops-iti/tf-gcp/hello-world-app:v1 
+            '''
       }
     }
-
 
     stage('Deploy to GKE') {
       steps {
         script {
-          gcloudProject = "${CLOUD_SDK_PROJECT}"
-          gkeCluster = 'gke-regional-cluster'
-        //   gkeZone = 'gke-regional-cluster'
-          gcloudCredentials = credentials("${GCLOUD_CREDS}")
-
-          sh "gcloud config set project ${CLOUD_SDK_PROJECT}"
-          sh "gcloud container clusters get-credentials ${gkeCluster} --project ${gcloudProject}"
-          sh "kubectl config set-context --current"
-          sh "kubectl apply -f deployment.yaml"
+          sh '''
+          sudo apt-get install -y kubectl
+          sudo apt-get install google-cloud-sdk-gke-gcloud-auth-plugin
+          sudo apt-get update && sudo apt-get --only-upgrade install google-cloud-sdk-cbt google-cloud-sdk-app-engine-go google-cloud-sdk-config-connector google-cloud-sdk google-cloud-sdk-harbourbridge google-cloud-sdk-enterprise-certificate-proxy google-cloud-sdk-minikube google-cloud-sdk-app-engine-python-extras google-cloud-sdk-cloud-run-proxy google-cloud-sdk-datastore-emulator google-cloud-sdk-package-go-module google-cloud-sdk-skaffold google-cloud-sdk-firestore-emulator google-cloud-sdk-spanner-migration-tool google-cloud-sdk-log-streaming google-cloud-sdk-app-engine-grpc google-cloud-sdk-pubsub-emulator google-cloud-sdk-spanner-emulator google-cloud-sdk-app-engine-python google-cloud-sdk-kubectl-oidc kubectl google-cloud-sdk-terraform-tools google-cloud-sdk-nomos google-cloud-sdk-app-engine-java google-cloud-sdk-bigtable-emulator google-cloud-sdk-local-extract google-cloud-sdk-cloud-build-local google-cloud-sdk-kpt google-cloud-sdk-anthos-auth google-cloud-sdk-gke-gcloud-auth-plugin
+          sudo gcloud components list
+          gcloud container clusters get-credentials ${GKE_CLUSTER} --region ${REGION} --project ${CLOUD_SDK_PROJECT}
+          cd App
+          kubectl config set-context --current
+          kubectl apply -f deployment.yaml
+          '''
         }
       }
-    }
-
-    stage('Cleaning up') {
-        steps{
-        sh "docker rmi $registry:$BUILD_NUMBER"
-        }
     }
   }
 }
