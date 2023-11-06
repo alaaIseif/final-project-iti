@@ -1,17 +1,9 @@
-# Use an official Node.js runtime as the base image
-FROM node:14-alpine
+FROM python:3.9-slim
 
-# Set the working directory in the container
-WORKDIR /app
+COPY app.py /
 
-# Copy package.json and package-lock.json (if exists)
-COPY package*.json ./
+RUN pip install flask
 
-# Install app dependencies
-RUN npm install
+EXPOSE 5000
 
-# Copy the rest of the application code
-COPY . .
-
-# Set the command to run the app
-CMD ["node", "app.js"]
+CMD ["python", "app.py"]
